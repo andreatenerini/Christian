@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cream: #fbf5ea;
+  --ink: #0b1f1c;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  /* Raleway usa cifre old-style di default: forziamo quelle allineate (telefono, numeri) */
+  font-feature-settings: 'lnum' 1, 'pnum' 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), Georgia, serif;
+    font-variation-settings: 'SOFT' 50, 'WONK' 0;
+    letter-spacing: -0.015em;
+  }
+  ::selection {
+    background: #f7900f;
+    color: #0b1f1c;
+  }
+}
+
+@layer components {
+  .container-app {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .eyebrow {
+    @apply font-body text-[12px] font-semibold uppercase tracking-[0.28em];
+  }
+
+  .h-section {
+    @apply font-display text-[34px] leading-[1.08] sm:text-5xl;
+  }
+
+  /* Bottoni */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[15px] font-semibold
+           transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+           active:translate-y-0;
+  }
+  .btn-sun {
+    @apply btn bg-sun-orange text-petrol-ink shadow-glow hover:-translate-y-0.5 hover:bg-sun-gold
+           focus-visible:ring-sun-orange;
+  }
+  .btn-petrol {
+    @apply btn bg-petrol text-cream hover:-translate-y-0.5 hover:bg-petrol-deep hover:shadow-lift
+           focus-visible:ring-petrol;
+  }
+  .btn-whatsapp {
+    @apply btn bg-[#25D366] text-[#0B2E1A] hover:-translate-y-0.5 hover:bg-[#3ee07a] focus-visible:ring-[#25D366];
+  }
+  .btn-ghost {
+    @apply btn border border-white/40 text-white hover:-translate-y-0.5 hover:bg-white/10 focus-visible:ring-white;
+  }
+
+  /* Firma grafica: le strisce del sole del logo */
+  .stripes-divider {
+    @apply flex flex-col gap-[5px];
+  }
+  .stripes-divider > span {
+    @apply block w-full;
+  }
+
+  /* Foto ritagliata come il sole del logo: parte alta piena, base a strisce (sotto il volto) */
+  .sun-mask {
+    border-radius: 9999px;
+    --sun-stripes: linear-gradient(
+      180deg,
+      #000 0 77%,
+      transparent 77% 79%,
+      #000 79% 84%,
+      transparent 84% 86%,
+      #000 86% 90.5%,
+      transparent 90.5% 92.5%,
+      #000 92.5% 96%,
+      transparent 96% 98%,
+      #000 98% 100%
+    );
+    -webkit-mask-image: var(--sun-stripes);
+    mask-image: var(--sun-stripes);
+  }
+
+  /* Form */
+  .field-label {
+    @apply mb-1.5 block text-sm font-semibold text-petrol-deep;
+  }
+  .field-input {
+    @apply w-full rounded-xl border border-petrol/15 bg-white px-4 py-3 text-[15px] text-petrol-ink
+           outline-none transition placeholder:text-petrol/40 hover:border-petrol/30
+           focus:border-teal focus:ring-4 focus:ring-teal/15;
+  }
+  .field-invalid {
+    @apply border-sun-red bg-sun-red/5 focus:border-sun-red focus:ring-sun-red/15;
+  }
+  .field-error {
+    @apply mt-1.5 text-[13px] font-medium text-sun-red;
+  }
+
+  /* Testo ricco dal CMS */
+  .prose-cms {
+    @apply space-y-5 text-[17px] leading-[1.75] text-petrol-deep/85;
+  }
+  .prose-cms h2 {
+    @apply pt-4 font-display text-3xl text-petrol-deep;
+  }
+  .prose-cms h3 {
+    @apply pt-2 font-display text-2xl text-petrol-deep;
+  }
+  .prose-cms a {
+    @apply font-semibold text-teal underline decoration-sun-orange decoration-2 underline-offset-4;
+  }
+  .prose-cms ul {
+    @apply list-disc space-y-2 pl-6 marker:text-sun-orange;
+  }
+  .prose-cms ol {
+    @apply list-decimal space-y-2 pl-6;
+  }
+  .prose-cms strong {
+    @apply font-bold text-petrol-deep;
+  }
+}

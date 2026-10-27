@@ -1,0 +1,10 @@
+# Variabili d'ambiente — copiare in .env.local (dev) o nel pannello Vercel (prod)
+DATABASE_URI=postgresql://USER:PASSWORD@HOST.neon.tech/neondb?sslmode=verify-full
+PAYLOAD_SECRET=stringa-casuale-lunga
+NEXT_PUBLIC_SERVER_URL=https://www.dominio.it
+
+# Facoltative
+BLOB_READ_WRITE_TOKEN=          # Vercel Blob: obbligatorio in produzione per i media caricati dal CMS
+RESEND_API_KEY=                 # notifica email delle nuove richieste di contatto
+RESEND_FROM_EMAIL=              # mittente verificato su Resend
+NOTIFICA_RICHIESTE_EMAIL=       # destinatario delle notifiche (es. email di Christian)
