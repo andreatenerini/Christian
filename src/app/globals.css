@@ -52,6 +52,23 @@ body {
     @apply font-display text-[34px] leading-[1.08] sm:text-5xl;
   }
 
+  /* Altezza dell'hero home: almeno lo schermo meno l'header (68px). I minimi in px sono
+     le altezze che l'hero aveva quando conteneva anche il blocco telefono + bottoni
+     (misurate a 390, 640–1023 e 1024–1440 px), così toglierli non lo accorcia. */
+  .hero-home {
+    min-height: max(calc(100svh - 68px), 852px);
+  }
+  @media (min-width: theme('screens.sm')) {
+    .hero-home {
+      min-height: max(calc(100svh - 68px), 837px);
+    }
+  }
+  @media (min-width: theme('screens.lg')) {
+    .hero-home {
+      min-height: max(calc(100svh - 68px), 877px);
+    }
+  }
+
   /* Bottoni */
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[15px] font-semibold

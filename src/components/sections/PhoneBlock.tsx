@@ -4,7 +4,8 @@ import { PhoneIcon } from '../Icons'
 interface PhoneBlockProps {
   contatti: Contatti
   tone?: 'light' | 'dark'
-  label?: string
+  /** null = nessuna etichetta sopra il numero */
+  label?: string | null
   /** 'compact' per colonne strette (es. sidebar del programma) */
   size?: 'large' | 'compact'
 }
@@ -24,10 +25,10 @@ export function PhoneBlock({
   const light = tone === 'light'
   return (
     <div className="flex flex-col items-center text-center">
-      <p className={`eyebrow ${light ? 'text-sun-gold' : 'text-petrol'}`}>{label}</p>
+      {label && <p className={`eyebrow mb-3 ${light ? 'text-sun-gold' : 'text-petrol'}`}>{label}</p>}
       <a
         href={contatti.telLink}
-        className={`group mt-3 inline-flex items-center gap-2.5 font-display leading-none tracking-tight transition sm:gap-4 ${NUMBER_SIZE[size]} ${
+        className={`group inline-flex items-center gap-2.5 font-display leading-none tracking-tight transition sm:gap-4 ${NUMBER_SIZE[size]} ${
           light ? 'text-cream hover:text-sun-gold' : 'text-petrol-ink hover:text-sun-red'
         }`}
         style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 0, 'opsz' 144" }}

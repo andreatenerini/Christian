@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Hero } from '@/components/sections/Hero'
+import { HeroContatti } from '@/components/sections/HeroContatti'
 import { Intro } from '@/components/sections/Intro'
 import { Didattica } from '@/components/sections/Didattica'
 import { Inclusi } from '@/components/sections/Inclusi'
@@ -29,9 +30,8 @@ export default async function HomePage() {
         titolo={home.hero.titolo}
         sottotitolo={home.hero.sottotitolo}
         immagine={asMedia(home.hero.immagine)}
-        contatti={contatti}
-        programmaHref={programmaHref}
       />
+      <HeroContatti contatti={contatti} programmaHref={programmaHref} />
 
       <Intro
         titolo={home.intro?.titolo}
@@ -74,7 +74,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      <CtaFinale titolo={home.cta?.titolo} testo={home.cta?.testo} contatti={contatti} interesse={programma?.titolo} />
+      <CtaFinale titolo={home.cta?.titolo} testo={home.cta?.testo} contatti={contatti} interesse={programma?.titolo} phoneLabel={null} />
     </>
   )
 }

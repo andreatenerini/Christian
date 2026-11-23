@@ -26,6 +26,15 @@ export function WhatsAppIcon({ className = 'h-5 w-5' }: IconProps) {
   )
 }
 
+/** Logo Facebook: cerchio pieno con la "f" ritagliata che scende fino al bordo inferiore. */
+export function FacebookIcon({ className = 'h-5 w-5' }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" fill="currentColor" fillRule="evenodd">
+      <path d="M24 12A12 12 0 1 1 0 12a12 12 0 0 1 24 0ZM10.1 23.849V15.2H7V12h3.1V9.6c0-3.3 1.7-5 4.8-5 .6 0 1.2.05 1.7.15V7.6h-1.2c-1.2 0-1.8.5-1.8 1.8V12h3l-.5 3.2h-2.5v8.693a12 12 0 0 1-3.5-.044Z" />
+    </svg>
+  )
+}
+
 export function ArrowIcon({ className = 'h-4 w-4' }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>

@@ -2,8 +2,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { Impostazioni } from '@/payload-types'
 import type { Contatti } from '@/lib/contatti'
-import { PhoneIcon, WhatsAppIcon } from './Icons'
+import type { ReactNode } from 'react'
+import { FacebookIcon, PhoneIcon, WhatsAppIcon } from './Icons'
 import { SunStripes } from './SunStripes'
+import { Collaborazioni } from './Collaborazioni'
+
+interface SocialLink {
+  label: string
+  href: string
+  icon?: ReactNode
+  /** classi colore/hover; senza, il link usa lo stile neutro del footer */
+  tone?: string
+}
 
 interface FooterProps {
   nav: { href: string; label: string }[]
@@ -13,11 +23,17 @@ interface FooterProps {
 }
 
 export function Footer({ nav, legali, impostazioni, contatti }: FooterProps) {
-  const social = [
-    { label: 'Instagram', href: impostazioni.instagram },
-    { label: 'Facebook', href: impostazioni.facebook },
-    { label: 'TikTok', href: impostazioni.tiktok },
-  ].filter((s): s is { label: string; href: string } => Boolean(s.href))
+  const social: SocialLink[] = [
+    { label: 'Instagram', href: impostazioni.instagram ?? '' },
+    {
+      label: 'Facebook',
+      href: impostazioni.facebook ?? '',
+      icon: <FacebookIcon className="h-5 w-5" />,
+      // blu Facebook schiarito per il contrasto sul fondo scuro, come il verde di WhatsApp
+      tone: 'text-[#6AA6F8] hover:text-[#A3C8FB]',
+    },
+    { label: 'TikTok', href: impostazioni.tiktok ?? '' },
+  ].filter((s) => s.href)
 
   return (
     <footer className="relative mt-auto bg-petrol-ink pb-24 text-cream/80 md:pb-0">
@@ -25,7 +41,7 @@ export function Footer({ nav, legali, impostazioni, contatti }: FooterProps) {
       <div className="container-app grid gap-12 py-16 md:grid-cols-[1.3fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-4">
-            <Image src="/logo-sole-512.png" alt="" width={64} height={64} className="h-16 w-16" />
+            <Image src="/logo-american-dream-512.png" alt="" width={80} height={80} className="h-20 w-20" />
             <div>
               <p className="text-xl font-light uppercase tracking-[0.18em] text-cream">Americanitalia</p>
               <p className="mt-1 text-xs uppercase tracking-[0.3em] text-sage">LLC · Orlando, Florida</p>
@@ -66,11 +82,16 @@ export function Footer({ nav, legali, impostazioni, contatti }: FooterProps) {
             </a>
           )}
           {social.length > 0 && (
-            <ul className="mt-4 flex flex-wrap gap-4 text-sm">
+            <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
               {social.map((s) => (
                 <li key={s.label}>
-                  <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-sun-gold">
-                    {s.label}
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-2 transition ${s.tone ?? 'hover:text-sun-gold'}`}
+                  >
+                    {s.icon} {s.label}
                   </a>
                 </li>
               ))}
@@ -92,6 +113,7 @@ export function Footer({ nav, legali, impostazioni, contatti }: FooterProps) {
           </address>
         </div>
       </div>
+      <Collaborazioni />
       <div className="border-t border-cream/10">
         <div className="container-app flex flex-col gap-3 py-6 text-[13px] text-cream/50 sm:flex-row sm:items-center sm:justify-between">
           <p>

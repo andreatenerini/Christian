@@ -8,9 +8,17 @@ interface CtaFinaleProps {
   testo?: string | null
   contatti: Contatti
   interesse?: string
+  /** Etichetta sopra il numero; null per nasconderla */
+  phoneLabel?: string | null
 }
 
-export function CtaFinale({ titolo, testo, contatti, interesse }: CtaFinaleProps) {
+export function CtaFinale({
+  titolo,
+  testo,
+  contatti,
+  interesse,
+  phoneLabel = 'Il prezzo te lo dico io, al telefono',
+}: CtaFinaleProps) {
   const formHref = interesse ? `/contatti?interesse=${encodeURIComponent(interesse)}` : '/contatti'
   return (
     <section className="relative overflow-hidden bg-sunset py-20 sm:py-28">
@@ -24,7 +32,7 @@ export function CtaFinale({ titolo, testo, contatti, interesse }: CtaFinaleProps
         {titolo && <h2 className="h-section mx-auto max-w-3xl text-petrol-ink">{titolo}</h2>}
         {testo && <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-petrol-ink/80">{testo}</p>}
         <div className="mx-auto mt-10 max-w-3xl rounded-[28px] bg-cream px-5 py-9 shadow-lift sm:px-10">
-          <PhoneBlock contatti={contatti} tone="dark" label="Il prezzo te lo dico io, al telefono" />
+          <PhoneBlock contatti={contatti} tone="dark" label={phoneLabel} />
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {contatti.waLink && (
               <a href={contatti.waLink} target="_blank" rel="noopener noreferrer" className="btn-whatsapp">

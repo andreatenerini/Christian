@@ -4,7 +4,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from './Icons'
+import { FlagCycle } from './FlagCycle'
 import type { Contatti } from '@/lib/contatti'
 
 interface NavItem {
@@ -34,17 +36,20 @@ export function Header({ nav, contatti }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-petrol/10 bg-cream/90 backdrop-blur-md">
       <div className="container-app flex h-[68px] items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-3" aria-label="Americanitalia — home">
-          <Image src="/logo-sole-512.png" alt="" width={44} height={44} className="h-10 w-10 sm:h-11 sm:w-11" priority />
-          <span className="flex flex-col leading-none">
-            <span className="text-[17px] font-light uppercase tracking-[0.16em] text-petrol-ink sm:text-[19px]">
-              Americanitalia
+        <div className="flex items-center gap-3 sm:gap-4">
+          <Link href="/" className="flex items-center gap-3" aria-label="Americanitalia — home">
+            <Image src="/logo-american-dream-512.png" alt="" width={56} height={56} className="h-12 w-12 sm:h-14 sm:w-14" priority />
+            <span className="flex flex-col leading-none">
+              <span className="text-[17px] font-light uppercase tracking-[0.16em] text-petrol-ink sm:text-[19px]">
+                Americanitalia
+              </span>
+              <span className="mt-1 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.2em] text-teal sm:text-[10px] sm:tracking-[0.3em]">
+                Vacanze studio · Florida
+              </span>
             </span>
-            <span className="mt-1 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.2em] text-teal sm:text-[10px] sm:tracking-[0.3em]">
-              Vacanze studio · Florida
-            </span>
-          </span>
-        </Link>
+          </Link>
+          <FlagCycle className="h-4 w-6 sm:h-[18px] sm:w-[27px]" />
+        </div>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Menu principale">
           {nav.map((item) => (
@@ -74,7 +79,7 @@ export function Header({ nav, contatti }: HeaderProps) {
           </a>
           <a
             href={contatti.telLink}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-petrol text-sun-gold md:hidden"
+            className="hidden h-11 w-11 items-center justify-center rounded-full bg-petrol text-sun-gold sm:inline-flex md:hidden"
             aria-label={`Chiama ${contatti.telefono}`}
           >
             <PhoneIcon className="h-5 w-5" />
@@ -91,52 +96,56 @@ export function Header({ nav, contatti }: HeaderProps) {
         </div>
       </div>
 
-      {open && (
-        <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
-          <button
-            type="button"
-            className="absolute inset-0 bg-petrol-ink/50 backdrop-blur-sm"
-            aria-label="Chiudi il menu"
-            onClick={() => setOpen(false)}
-          />
-          <div className="absolute inset-y-0 right-0 flex w-[86%] max-w-sm flex-col bg-cream shadow-lift">
-            <div className="flex h-[68px] items-center justify-between border-b border-petrol/10 px-5">
-              <span className="text-xs font-semibold uppercase tracking-[0.28em] text-teal">Menu</span>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full hover:bg-petrol/5"
-                aria-label="Chiudi il menu"
-              >
-                <CloseIcon />
-              </button>
-            </div>
-            <nav className="flex flex-col px-3 py-4" aria-label="Menu mobile">
-              {nav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`rounded-xl px-4 py-3.5 font-display text-2xl ${
-                    isActive(item.href) ? 'bg-petrol/5 text-petrol-ink' : 'text-petrol/80'
-                  }`}
+      {/* Portal su <body>: il backdrop-filter dell'header fa da containing block per i figli
+          position:fixed, che altrimenti resterebbero alti quanto l'header (68px). */}
+      {open &&
+        createPortal(
+          <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+            <button
+              type="button"
+              className="absolute inset-0 bg-petrol-ink/50 backdrop-blur-sm"
+              aria-label="Chiudi il menu"
+              onClick={() => setOpen(false)}
+            />
+            <div className="absolute inset-y-0 right-0 flex w-[86%] max-w-sm flex-col bg-cream shadow-lift">
+              <div className="flex h-[68px] items-center justify-between border-b border-petrol/10 px-5">
+                <span className="text-xs font-semibold uppercase tracking-[0.28em] text-teal">Menu</span>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full hover:bg-petrol/5"
+                  aria-label="Chiudi il menu"
                 >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-            <div className="mt-auto space-y-3 border-t border-petrol/10 p-5">
-              <a href={contatti.telLink} className="btn-petrol w-full">
-                <PhoneIcon className="h-4 w-4 text-sun-gold" /> {contatti.telefono}
-              </a>
-              {contatti.waLink && (
-                <a href={contatti.waLink} target="_blank" rel="noopener noreferrer" className="btn-whatsapp w-full">
-                  <WhatsAppIcon className="h-4 w-4" /> Scrivimi su WhatsApp
+                  <CloseIcon />
+                </button>
+              </div>
+              <nav className="flex flex-col px-3 py-4" aria-label="Menu mobile">
+                {nav.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`rounded-xl px-4 py-3.5 font-display text-2xl ${
+                      isActive(item.href) ? 'bg-petrol/5 text-petrol-ink' : 'text-petrol/80'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+              <div className="mt-auto space-y-3 border-t border-petrol/10 p-5">
+                <a href={contatti.telLink} className="btn-petrol w-full">
+                  <PhoneIcon className="h-4 w-4 text-sun-gold" /> {contatti.telefono}
                 </a>
-              )}
+                {contatti.waLink && (
+                  <a href={contatti.waLink} target="_blank" rel="noopener noreferrer" className="btn-whatsapp w-full">
+                    <WhatsAppIcon className="h-4 w-4" /> Scrivimi su WhatsApp
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
     </header>
   )
 }

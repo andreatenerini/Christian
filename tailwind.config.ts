@@ -37,6 +37,8 @@ const config: Config = {
         'hero-zoom': 'heroZoom 26s ease-in-out infinite alternate',
         'fade-up': 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) both',
         float: 'float 7s ease-in-out infinite',
+        // due elementi sovrapposti, il secondo con animation-delay di metà ciclo (-3s)
+        'flag-cycle': 'flagCycle 6s ease-in-out infinite',
       },
       keyframes: {
         heroZoom: { from: { transform: 'scale(1)' }, to: { transform: 'scale(1.1)' } },
@@ -47,6 +49,12 @@ const config: Config = {
         float: {
           '0%,100%': { transform: 'translate(0,0) rotate(-8deg)' },
           '50%': { transform: 'translate(6px,-8px) rotate(-6deg)' },
+        },
+        // visibile ~2.5s, dissolvenza ~0.5s: sfasato di mezzo ciclo, l'altro entra mentre questo esce
+        flagCycle: {
+          '0%,42%': { opacity: '1' },
+          '50%,92%': { opacity: '0' },
+          '100%': { opacity: '1' },
         },
       },
     },
