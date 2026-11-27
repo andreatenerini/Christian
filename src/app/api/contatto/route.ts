@@ -7,6 +7,15 @@ const MAX_PER_WINDOW = 5
 // Limite semplice per istanza: sufficiente contro invii ripetuti, non contro attacchi distribuiti
 const hits = new Map<string, number[]>()
 
+/**
+ * Mittente della notifica: nome del visitatore come nome visualizzato, indirizzo verificato su Resend.
+ * L'email del visitatore non può essere il mittente (Resend accetta solo domini verificati): va in replyTo.
+ */
+function mittenteNotifica(nome: string, indirizzo: string): string {
+  const nomePulito = nome.replace(/["<>\\\r\n]/g, '').trim()
+  return `"${nomePulito} via Americanitalia" <${indirizzo}>`
+}
+
 function isRateLimited(ip: string): boolean {
   const now = Date.now()
   const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS)
@@ -60,12 +69,14 @@ export async function POST(request: Request) {
     })
 
     const destinatario = process.env.NOTIFICA_RICHIESTE_EMAIL
-    if (destinatario && process.env.RESEND_API_KEY) {
+    const mittente = process.env.RESEND_FROM_EMAIL
+    if (destinatario && mittente && process.env.RESEND_API_KEY) {
       await payload
         .sendEmail({
+          from: mittenteNotifica(dati.nome, mittente),
           to: destinatario,
           replyTo: dati.email,
-          subject: `Nuova richiesta dal sito: ${dati.nome}`,
+          subject: `Nuova richiesta dal sito: ${dati.nome} <${dati.email}>`,
           text: [
             `Nome: ${dati.nome}`,
             `Email: ${dati.email}`,
