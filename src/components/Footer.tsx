@@ -107,15 +107,18 @@ export function Footer({ nav, legali, impostazioni, contatti }: FooterProps) {
         </div>
 
         <div>
-          <p className="eyebrow text-sage">Dati societari</p>
+          <p className="eyebrow text-sage">Ragione sociale</p>
           <address className="mt-5 space-y-1.5 text-[15px] not-italic leading-relaxed">
             <span className="block font-semibold text-cream">{impostazioni.ragioneSociale}</span>
             {impostazioni.ein && <span className="block">{impostazioni.ein}</span>}
             {impostazioni.indirizzo && <span className="block whitespace-pre-line">{impostazioni.indirizzo}</span>}
             {contatti.email && (
-              <a href={`mailto:${contatti.email}`} className="block pt-2 hover:text-sun-gold">
-                {contatti.email}
-              </a>
+              <span className="block pt-2">
+                Email:{' '}
+                <a href={`mailto:${contatti.email}`} className="break-all hover:text-sun-gold">
+                  {contatti.email}
+                </a>
+              </span>
             )}
           </address>
         </div>
