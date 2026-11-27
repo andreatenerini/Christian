@@ -40,11 +40,18 @@ export function Footer({ nav, legali, impostazioni, contatti }: FooterProps) {
       <SunStripes className="opacity-90" direction="up" />
       <div className="container-app grid gap-12 py-16 md:grid-cols-[1.3fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-4">
-            <Image src="/logo-american-dream-512.png" alt="" width={80} height={80} className="h-20 w-20" />
+          {/* sotto i 360px logo e scritta più piccoli, altrimenti escono dallo schermo */}
+          <div className="flex items-center gap-3 min-[360px]:gap-4">
+            <Image
+              src="/logo-american-dream-512.png"
+              alt=""
+              width={80}
+              height={80}
+              className="h-16 w-16 shrink-0 min-[360px]:h-20 min-[360px]:w-20"
+            />
             <div>
-              <p className="text-xl font-light uppercase tracking-[0.18em] text-cream">Americanitalia</p>
-              <p className="mt-1 text-xs uppercase tracking-[0.3em] text-sage">LLC · Orlando, Florida</p>
+              <p className="text-lg font-light uppercase tracking-[0.18em] text-cream min-[360px]:text-xl">Americanitalia</p>
+              <p className="mt-1 whitespace-nowrap text-xs uppercase tracking-[0.18em] text-sage min-[360px]:tracking-[0.3em]">LLC · Orlando, Florida</p>
             </div>
           </div>
           <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-cream/65">
