@@ -44,11 +44,12 @@ export function Header({ nav, contatti }: HeaderProps) {
                 Americanitalia
               </span>
               <span className="mt-1 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.2em] text-teal sm:text-[10px] sm:tracking-[0.3em]">
-                Vacanze studio · Florida
+                Vacanze · studio · Visti
               </span>
             </span>
           </Link>
-          <FlagCycle className="h-4 w-6 sm:h-[18px] sm:w-[27px]" />
+          {/* sotto i 360px non c'è spazio accanto al logo */}
+          <FlagCycle className="hidden h-4 w-6 min-[360px]:inline-block sm:h-[18px] sm:w-[27px]" />
         </div>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Menu principale">

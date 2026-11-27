@@ -14,7 +14,7 @@ interface Props {
   searchParams: Promise<{ interesse?: string }>
 }
 
-const INTERESSI_FISSI = ['Solo viaggio (senza corso)', 'Consulenza voli e assicurazione medica', 'Altro']
+const INTERESSI_FISSI = ['Solo viaggio (senza corso)', 'Visti USA/Canada']
 
 export default async function ContattiPage({ searchParams }: Props) {
   const [{ interesse }, impostazioni, programmi, pagine] = await Promise.all([
